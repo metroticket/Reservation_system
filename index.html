@@ -59,6 +59,10 @@
             margin-top: 10px;
             display: none; /* 初始隱藏 */
         }
+        #timePicker {
+            display: none;
+            margin-top: -10px; /* 調整位置 */
+        }
     </style>
 </head>
 <body>
@@ -66,13 +70,16 @@
     <div class="user-info" id="userId">使用者 ID: 載入中...</div>
 
     <div class="form-group">
-
-
         <label for="employeeId">內容:</label>
         <input type="text" id="employeeId" placeholder="請輸入提醒內容">
 
-        <label for="datetime">時間:</label>
-        <input type="text" id="datetime" placeholder="請選擇時間" readonly>
+        <label for="datetime">日期:</label>
+        <input type="text" id="datetime" placeholder="請選擇日期" readonly>
+
+        <div id="timePicker">
+            <label for="time">選擇時間:</label>
+            <input type="time" id="time" value="12:00">
+        </div>
 
         <label for="unit">週期:</label>
         <select id="unit">
@@ -89,7 +96,7 @@
     </div>
 
     <script>
-        var liffID = '2006470777-4Ldz1QA5'; // 替換為你的 LIFF ID
+        var liffID = '2006470777-7Bk05Xzj'; // 替換為你的 LIFF ID
 
         liff.init({ liffId: liffID })
             .then(() => {
@@ -107,13 +114,7 @@
                 $("#datetime").datepicker({
                     dateFormat: 'yy-mm-dd',
                     onSelect: function(dateText) {
-                        const timePickerHtml = `
-                            <div id="timePicker" style="position:absolute;">
-                                <label for="time">選擇時間:</label>
-                                <input type="time" id="time" value="12:00">
-                            </div>
-                        `;
-                        $("#datetime").after(timePickerHtml);
+                        $("#timePicker").show(); // 選擇日期後顯示時間選擇器
                     }
                 });
 

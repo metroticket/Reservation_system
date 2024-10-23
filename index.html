@@ -70,8 +70,8 @@
     <div class="user-info" id="userId">使用者 ID: 載入中...</div>
 
     <div class="form-group">
-        <label for="employeeId">內容:</label>
-        <input type="text" id="employeeId" placeholder="請輸入提醒內容">
+        <label for="remind_text">提醒內容:</label>
+        <input type="text" id="remind_text" placeholder="請輸入提醒內容">
 
         <label for="datetime">日期:</label>
         <input type="text" id="datetime" placeholder="請選擇日期" readonly>
@@ -81,8 +81,8 @@
             <input type="time" id="time">
         </div>
 
-        <label for="unit">週期:</label>
-        <select id="unit">
+        <label for="cycle_datetime">週期:</label>
+        <select id="cycle_datetime">
             <option value="0">一次性</option>
             <option value="1">每天(盡量不使用)</option>
             <option value="2">每週</option>
@@ -130,8 +130,8 @@
                 setCurrentTime();
 
                 document.getElementById('submit').addEventListener('click', () => {
-                    const unit = document.getElementById('unit').value;
-                    const employeeId = document.getElementById('employeeId').value;
+                    const cycle_datetime = document.getElementById('cycle_datetime').value; // 週期
+                    const remind_text = document.getElementById('remind_text').value; // 提醒內容
                     const datetime = document.getElementById('datetime').value;
                     const time = document.getElementById('time').value;
 
@@ -139,14 +139,14 @@
                     errorMessageDiv.style.display = 'none'; // 隱藏錯誤訊息
 
                     // 檢查內容和時間是否為空
-                    if (!employeeId || !datetime || !time) {
+                    if (!remind_text || !datetime || !time) {
                         errorMessageDiv.innerText = '內容和時間不能為空';
                         errorMessageDiv.style.display = 'block'; // 顯示錯誤訊息
                         return; // 不發送訊息
                     }
 
                     const fullDateTime = `${datetime} ${time}`;
-                    const message = `功能: 身分驗證\n單位: ${unit}\n內容: ${employeeId}\n時間: ${fullDateTime}`;
+                    const message = `功能: 提醒設定\n提醒內容: ${remind_text}\n時間: ${fullDateTime}\n週期: ${cycle_datetime}`; 
                     sendMessageToLineBot(message); // 發送消息
                 });
             })

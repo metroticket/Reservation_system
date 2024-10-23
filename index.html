@@ -6,8 +6,10 @@
     <title>票務中心機器人系統</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,10 +61,6 @@
             margin-top: 10px;
             display: none; /* 初始隱藏 */
         }
-        #timePicker {
-            display: none;
-            margin-top: -10px; /* 調整位置 */
-        }
     </style>
 </head>
 <body>
@@ -76,10 +74,8 @@
         <label for="datetime">日期:</label>
         <input type="text" id="datetime" placeholder="請選擇日期" readonly>
 
-        <div id="timePicker">
-            <label for="time">選擇時間:</label>
-            <input type="time" id="time" value="12:00">
-        </div>
+        <label for="time">選擇時間:</label>
+        <input type="text" id="time" placeholder="請選擇時間">
 
         <label for="unit">週期:</label>
         <select id="unit">
@@ -113,8 +109,8 @@
                 // 初始化日期選擇器
                 $("#datetime").datepicker({
                     dateFormat: 'yy-mm-dd',
-                    onSelect: function(dateText) {
-                        $("#timePicker").show(); // 選擇日期後顯示時間選擇器
+                    onSelect: function() {
+                        $("#time").timepicker(); // 初始化時間選擇器
                     }
                 });
 
@@ -122,7 +118,7 @@
                     const unit = document.getElementById('unit').value;
                     const employeeId = document.getElementById('employeeId').value;
                     const datetime = document.getElementById('datetime').value;
-                    const time = document.getElementById('time') ? document.getElementById('time').value : '';
+                    const time = document.getElementById('time').value;
 
                     const errorMessageDiv = document.getElementById('error-message');
                     errorMessageDiv.style.display = 'none'; // 隱藏錯誤訊息

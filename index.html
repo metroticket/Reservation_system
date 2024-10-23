@@ -6,10 +6,8 @@
     <title>票務中心機器人系統</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -61,6 +59,10 @@
             margin-top: 10px;
             display: none; /* 初始隱藏 */
         }
+        #timePicker {
+            display: none;
+            margin-top: -10px; /* 調整位置 */
+        }
     </style>
 </head>
 <body>
@@ -74,8 +76,10 @@
         <label for="datetime">日期:</label>
         <input type="text" id="datetime" placeholder="請選擇日期" readonly>
 
-        <label for="time">選擇時間:</label>
-        <input type="text" id="time" placeholder="請選擇時間">
+        <div id="timePicker">
+            <label for="time">選擇時間:</label>
+            <input type="time" id="time">
+        </div>
 
         <label for="unit">週期:</label>
         <select id="unit">
@@ -109,10 +113,21 @@
                 // 初始化日期選擇器
                 $("#datetime").datepicker({
                     dateFormat: 'yy-mm-dd',
-                    onSelect: function() {
-                        $("#time").timepicker(); // 初始化時間選擇器
+                    onSelect: function(dateText) {
+                        $("#timePicker").show(); // 選擇日期後顯示時間選擇器
                     }
                 });
+
+                // 獲取當前時間並設置為預設值
+                function setCurrentTime() {
+                    const now = new Date();
+                    const hours = String(now.getHours()).padStart(2, '0'); // 獲取小時，補零
+                    const minutes = String(now.getMinutes()).padStart(2, '0'); // 獲取分鐘，補零
+                    document.getElementById('time').value = `${hours}:${minutes}`; // 設置為當前時間
+                }
+
+                // 在頁面加載後設置當前時間
+                setCurrentTime();
 
                 document.getElementById('submit').addEventListener('click', () => {
                     const unit = document.getElementById('unit').value;
